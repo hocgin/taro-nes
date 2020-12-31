@@ -18,30 +18,32 @@ let audio_samples_L = new Float32Array(SAMPLE_COUNT);
 let audio_samples_R = new Float32Array(SAMPLE_COUNT);
 let audio_write_cursor = 0, audio_read_cursor = 0;
 
-let nes;
+let nes = new jsnes.NES({
+  onFrame: function (framebuffer_24) {
+    for (let i = 0; i < FRAMEBUFFER_SIZE; i++) framebuffer_u32[i] = 0xFF000000 | framebuffer_24[i];
+  },
+  onAudioSample: function (l, r) {
+    audio_samples_L[audio_write_cursor] = l;
+    audio_samples_R[audio_write_cursor] = r;
+    audio_write_cursor = (audio_write_cursor + 1) & SAMPLE_MASK;
+  },
+});
 
-function createNes() {
+function recycle() {
   // 资源回收
-  if (rafId !== null) {
+  if (rafId !== null && canvas !== null) {
+    console.debug('回收上次资源 - 开始');
     canvas.cancelAnimationFrame(rafId);
+    console.debug('回收上次资源 - 结束');
   }
 
   // 创建资源
-  nes = new jsnes.NES({
-    onFrame: function (framebuffer_24) {
-      for (let i = 0; i < FRAMEBUFFER_SIZE; i++) framebuffer_u32[i] = 0xFF000000 | framebuffer_24[i];
-    },
-    onAudioSample: function (l, r) {
-      audio_samples_L[audio_write_cursor] = l;
-      audio_samples_R[audio_write_cursor] = r;
-      audio_write_cursor = (audio_write_cursor + 1) & SAMPLE_MASK;
-    },
-  });
+  // console.debug('初始化新游戏机 - 开始');
+  // console.debug('初始化新游戏机 - 完成');
 }
 
 function onAnimationFrame() {
   rafId = canvas.requestAnimationFrame(onAnimationFrame);
-
   image.data.set(framebuffer_u8);
   canvas_ctx.putImageData(image, 0, 0);
   nes.frame();
@@ -70,7 +72,8 @@ function audio_callback(event) {
 }
 
 function nes_init(_callback, canvas_res) {
-  createNes();
+  recycle();
+  console.debug('初始化屏幕 - 开始');
 
   let width = canvas_res[0].width;
   let height = canvas_res[0].height;
@@ -89,22 +92,28 @@ function nes_init(_callback, canvas_res) {
   let buffer = new ArrayBuffer(image.data.length);
   framebuffer_u8 = new Uint8ClampedArray(buffer);
   framebuffer_u32 = new Uint32Array(buffer);
+  console.debug('初始化屏幕 - 完成');
 
+  console.debug('初始化音频 - 开始');
   // Setup audio.
   // let audio_ctx = Taro.createInnerAudioContext();
   // let script_processor = audio_ctx.createScriptProcessor(AUDIO_BUFFERING, 0, 2);
   // script_processor.onaudioprocess = audio_callback;
   // script_processor.connect(audio_ctx.destination);
+  console.debug('音频初始化 - 完成');
   _callback();
 }
 
 function nes_boot(rom_data) {
+  console.debug('启动游戏机 - 开始');
   nes.loadROM(rom_data);
   rafId = canvas.requestAnimationFrame(onAnimationFrame);
+  console.debug('启动游戏机 - 完成');
 }
 
 // ======================================================================
 export function loadData(_canvas_id, _scale, rom_data) {
+  console.debug('加载数据 - 开始');
   scale = _scale;
   canvas_id = _canvas_id;
   Taro.createSelectorQuery()
@@ -112,12 +121,11 @@ export function loadData(_canvas_id, _scale, rom_data) {
     .fields({
       node: true,
       size: true,
-    }).exec(nes_init.bind(this, () => {
-    nes_boot(rom_data);
-  }));
+    }).exec(nes_init.bind(this, () => nes_boot(rom_data)));
 }
 
 export function loadUrl(_canvas_id, _scale, rom_data_url) {
+  console.debug('从网络加载ROM - 开始');
   Taro.request({
     url: rom_data_url, method: 'GET', responseType: 'arrayBuffer',
     header: {
