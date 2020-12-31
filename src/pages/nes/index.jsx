@@ -6,6 +6,8 @@ import Taro from "@tarojs/taro";
 import {Controller} from "jsnes";
 import {Button, Canvas, Image, Text, View} from "@tarojs/components";
 import Utils from "@/utils/utils";
+import classnames from "classnames";
+
 import styles from './index.less';
 
 @connect(({apps}) => ({
@@ -50,11 +52,47 @@ class Index extends Component {
         {/*256px 240px*/}
         <Canvas id='gview' type='2d' style={{width: width, height: height}} />
       </View>
+      {/*加载和邀请*/}
+      <View className={styles.toolbar}>
+        <View onClick={this.onClickLoad.bind(this)}
+              className={classnames(styles.nesBtn, styles.loadBtn)}>加载</View>
+      </View>
 
-      <Button onClick={this.onClickLoad.bind(this)}>加载</Button>
-      <View style='width: 100%'
-            onTouchStart={this.onTouchStart.bind(this, Controller.BUTTON_START)}
-            onTouchEnd={this.onTouchEnd.bind(this, Controller.BUTTON_START)}>操作</View>
+      {/*控制面板*/}
+      <View className={styles.ctls}>
+        <View className={styles.row1}>
+          <View className={styles.rl}>
+            <View className={classnames(styles.nesBtn, styles.t)}
+                  onTouchStart={this.onTouchStart.bind(this, Controller.BUTTON_UP)}
+                  onTouchEnd={this.onTouchEnd.bind(this, Controller.BUTTON_UP)}>上</View>
+            <View className={classnames(styles.nesBtn, styles.d)}
+                  onTouchStart={this.onTouchStart.bind(this, Controller.BUTTON_DOWN)}
+                  onTouchEnd={this.onTouchEnd.bind(this, Controller.BUTTON_DOWN)}>下</View>
+            <View className={classnames(styles.nesBtn, styles.l)}
+                  onTouchStart={this.onTouchStart.bind(this, Controller.BUTTON_LEFT)}
+                  onTouchEnd={this.onTouchEnd.bind(this, Controller.BUTTON_LEFT)}>左</View>
+            <View className={classnames(styles.nesBtn, styles.r)}
+                  onTouchStart={this.onTouchStart.bind(this, Controller.BUTTON_RIGHT)}
+                  onTouchEnd={this.onTouchEnd.bind(this, Controller.BUTTON_RIGHT)}>右</View>
+          </View>
+          <View className={styles.rr}>
+            <View className={classnames(styles.nesBtn, styles.isSuccess, styles.b)}
+                  onTouchStart={this.onTouchStart.bind(this, Controller.BUTTON_B)}
+                  onTouchEnd={this.onTouchEnd.bind(this, Controller.BUTTON_B)}>B</View>
+            <View className={classnames(styles.nesBtn, styles.isPrimary, styles.a)}
+                  onTouchStart={this.onTouchStart.bind(this, Controller.BUTTON_A)}
+                  onTouchEnd={this.onTouchEnd.bind(this, Controller.BUTTON_A)}>A</View>
+          </View>
+        </View>
+        <View className={styles.row2}>
+          <View className={classnames(styles.nesBtn, styles.isWarning, styles.select)}
+                onTouchStart={this.onTouchStart.bind(this, Controller.BUTTON_SELECT)}
+                onTouchEnd={this.onTouchEnd.bind(this, Controller.BUTTON_SELECT)}>选择</View>
+          <View className={classnames(styles.nesBtn, styles.isError, styles.start)}
+                onTouchStart={this.onTouchStart.bind(this, Controller.BUTTON_START)}
+                onTouchEnd={this.onTouchEnd.bind(this, Controller.BUTTON_START)}>开始</View>
+        </View>
+      </View>
     </PageLayout>);
   }
 

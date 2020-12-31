@@ -1,6 +1,95 @@
 @import "~@/mixin.less";
+@import "~@/nes-style.less";
 
 .page {
   height: 100vh;
-  // ..
+  width: 100vh;
+  overflow: hidden;
+}
+
+.toolbar {
+  width: 100%;
+  background-color: rgba(230, 230, 250, .6);
+  display: flex;
+  justify-content: center;
+}
+
+.ctls {
+
+  @sw: 45px;
+
+  .row1 {
+    width: 100%;
+    height: @sw * 4;
+    margin: 0 20px;
+    margin-top: @sw * 2;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+
+    .rl {
+      position: relative;
+      flex: 1;
+
+      .t, .d, .r, .l {
+        position: absolute;
+        height: @sw;
+        width: @sw;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .t {
+        left: @sw*2;
+        top: -@sw*2;
+      }
+
+      .r {
+        left: @sw*4;
+      }
+
+      .d {
+        left: @sw*2;
+        top: @sw*2;
+      }
+    }
+
+    @sr: @sw * 1.3;
+
+    .rr {
+      position: relative;
+      flex: 1;
+
+      .a, .b {
+        position: absolute;
+        height: @sr;
+        width: @sr;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .a {
+        top: -@sr;
+        right: @sr*1;
+      }
+
+      .b {
+        top: @sr/2;
+        right: @sr*2.5;
+      }
+    }
+  }
+
+
+  .row2 {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+
+    .start, .select {
+      margin: 0 10px;
+    }
+  }
 }
