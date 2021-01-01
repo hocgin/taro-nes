@@ -9,6 +9,7 @@ import Utils from "@/utils/utils";
 import classnames from "classnames";
 
 import styles from './index.less';
+import Config from "@/config";
 
 @connect(({apps}) => ({
   // apps
@@ -20,9 +21,12 @@ class Index extends Component {
     width: null,
     height: null,
     scale: null,
+    gameUrl: null,
+    isLoading: false
   };
 
   componentDidMount() {
+    let {gameUrl} = Taro.getCurrentInstance().router.params;
     let {WIN_WIDTH, WIN_HEIGHT} = Utils.getSystemInfo();
     let scale = 256 / WIN_WIDTH;
     // 256/WIN_WIDTH = 240 / x
@@ -30,11 +34,14 @@ class Index extends Component {
       scale: scale,
       width: WIN_WIDTH,
       height: 240 / scale,
+      gameUrl: gameUrl,
     });
 
     Taro.eventCenter.once(Taro.getCurrentInstance().router.onReady, () => {
       // loadUrl('gview', 'http://cdn.hocgin.top/InterglacticTransmissing.nes')
     });
+
+
   }
 
   componentWillUnmount() {
@@ -43,7 +50,7 @@ class Index extends Component {
 
   render() {
     let {apps} = this.props;
-    let {width, height} = this.state;
+    let {width, height, isLoading} = this.state;
 
     // - 放大
     // - 声音 25.6
@@ -55,7 +62,9 @@ class Index extends Component {
       {/*加载和邀请*/}
       <View className={styles.toolbar}>
         <View onClick={this.onClickLoad.bind(this)}
-              className={classnames(styles.nesBtn, styles.loadBtn)}>加载</View>
+              className={classnames(styles.nesBtn, styles.loadBtn, {
+                [styles.isDisabled]: isLoading
+              })}>{isLoading ? '加载中..' : '加载'}</View>
       </View>
 
       {/*控制面板*/}
@@ -107,8 +116,13 @@ class Index extends Component {
   }
 
   onClickLoad() {
-    let {scale} = this.state;
-    loadUrl('gview', scale, 'http://cdn.hocgin.top/InterglacticTransmissing.nes');
+    let {scale, gameUrl, isLoading} = this.state;
+    if (isLoading) {
+      return;
+    }
+    this.setState({isLoading: true});
+    loadUrl('gview', scale, Config.getDownloadUrl(gameUrl, 'xx.nes'));
+    this.setState({isLoading: false});
   };
 
 

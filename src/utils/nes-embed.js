@@ -113,7 +113,6 @@ function nes_boot(rom_data) {
 
 // ======================================================================
 export function loadData(_canvas_id, _scale, rom_data) {
-  console.debug('加载数据 - 开始');
   scale = _scale;
   canvas_id = _canvas_id;
   Taro.createSelectorQuery()
@@ -143,38 +142,4 @@ export function buttonDown(player, buttonKey) {
 
 export function buttonUp(player, buttonKey) {
   nes.buttonUp(player, buttonKey);
-}
-
-function keyboard(callback, event) {
-  var player = 1;
-  switch (event.keyCode) {
-    case 38: // UP
-      callback(player, jsnes.Controller.BUTTON_UP);
-      break;
-    case 40: // Down
-      callback(player, jsnes.Controller.BUTTON_DOWN);
-      break;
-    case 37: // Left
-      callback(player, jsnes.Controller.BUTTON_LEFT);
-      break;
-    case 39: // Right
-      callback(player, jsnes.Controller.BUTTON_RIGHT);
-      break;
-    case 65: // 'a' - qwerty, dvorak
-    case 81: // 'q' - azerty
-      callback(player, jsnes.Controller.BUTTON_A);
-      break;
-    case 83: // 's' - qwerty, azerty
-    case 79: // 'o' - dvorak
-      callback(player, jsnes.Controller.BUTTON_B);
-      break;
-    case 9: // Tab
-      callback(player, jsnes.Controller.BUTTON_SELECT);
-      break;
-    case 13: // Return
-      callback(player, jsnes.Controller.BUTTON_START);
-      break;
-    default:
-      break;
-  }
 }
