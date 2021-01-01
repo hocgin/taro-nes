@@ -53,7 +53,6 @@ class Index extends Component {
           <ColorTitle className={styles.title}>最新推荐</ColorTitle>
           <Text />
         </View>
-        <WebView src='https://jsnes.org/'/>
       </View>
 
     </PageLayout>);
