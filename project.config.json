@@ -1,8 +1,8 @@
 {
   "miniprogramRoot": "dist/",
-  "projectname": "taro-starter",
-  "description": "taro-starter",
-  "appid": "touristappid",
+  "projectname": "taro-nes",
+  "description": "taro-nes",
+  "appid": "wxd9f7de635166d8c8",
   "setting": {
     "urlCheck": false,
     "es6": false,

@@ -5,7 +5,7 @@ module.exports = {
   },
   defineConstants: {
     baseUrl: '"https://api.hocgin.top"',
-    appid: '"wx19d2028bfdc4decf"'
+    appid: '"wxd9f7de635166d8c8"'
   },
   mini: {},
   h5: {

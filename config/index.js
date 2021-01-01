@@ -2,7 +2,7 @@
 const path = require('path');
 
 const config = {
-  projectName: 'taro-starter',
+  projectName: 'taro-nes',
   date: '2020-12-7',
   designWidth: 750,
   deviceRatio: {
