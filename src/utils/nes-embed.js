@@ -121,12 +121,17 @@ function nes_init(canvas_res) {
     console.debug('初始化屏幕 - 开始');
     refreshCanvas(canvas_id, scale, width, height).then(() => {
       console.debug('初始化屏幕 - 完成');
-      canvas_ctx.fillStyle = "black";
+      // 画黑幕
+      canvas_ctx.fillStyle = '#000';
       canvas_ctx.fillRect(0, 0, width, height);
-      canvas_ctx.textAlign = "center";
-      canvas_ctx.textBaseline = "middle";
-      canvas_ctx.fillText("游戏加载中..", width / 2, height / 2);
+      canvas_ctx.fillStyle = '#fff';
+
       // 画LOGO
+      canvas_ctx.textAlign = 'center';
+      canvas_ctx.textBaseline = 'middle';
+      let tips = "游戏加载中..";
+      console.log(width, height);
+      canvas_ctx.fillText(tips, width / 2, height / 2);
 
       let buffer = new ArrayBuffer(image.data.length);
       framebuffer_u8 = new Uint8ClampedArray(buffer);
@@ -175,7 +180,9 @@ export function loadUrl(_canvas_id, _scale, rom_data_url) {
       header: {
         'content-type': 'application/text'
       }
-    }).then(({data}) => nes_boot(Utils.ab2str(data))).catch(r => console.warn('下载rom错误', r));
+    }).then(({data}) => {
+      // nes_boot(Utils.ab2str(data))
+    }).catch(r => console.warn('下载rom错误', r));
   });
 }
 

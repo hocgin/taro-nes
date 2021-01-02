@@ -41,30 +41,6 @@ class Index extends Component {
     </PageLayout>);
   }
 
-  onClickLoad() {
-    let {scale, gameUrl, isLoading} = this.state;
-    if (isLoading) {
-      return;
-    }
-    this.setState({isLoading: true});
-    this.setState({isLoading: false});
-  };
-
-  onClickSave() {
-    let data = saveGameProgress();
-    if (data !== null) {
-      setStorageSync(Keys.GAME_SAVE, data);
-    }
-  }
-
-  onClickLoadSave() {
-    let data = getStorageSync(Keys.GAME_SAVE);
-    if (data !== null) {
-      loadGameProgress(data);
-    }
-  }
-
-
 }
 
 export default Index;
