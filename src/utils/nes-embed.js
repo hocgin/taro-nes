@@ -123,6 +123,10 @@ function nes_init(canvas_res) {
       console.debug('初始化屏幕 - 完成');
       canvas_ctx.fillStyle = "black";
       canvas_ctx.fillRect(0, 0, width, height);
+      canvas_ctx.textAlign = "center";
+      canvas_ctx.textBaseline = "middle";
+      canvas_ctx.fillText("游戏加载中..", width / 2, height / 2);
+      // 画LOGO
 
       let buffer = new ArrayBuffer(image.data.length);
       framebuffer_u8 = new Uint8ClampedArray(buffer);
@@ -148,28 +152,31 @@ function nes_boot(rom_data) {
 }
 
 // ======================================================================
-export function loadData(_canvas_id, _scale, rom_data) {
+export function loadData(_canvas_id, _scale) {
   scale = _scale;
   canvas_id = _canvas_id;
   clearInterval(fpsInterval);
-  Taro.createSelectorQuery()
-    .select('#' + canvas_id)
-    .fields({node: true, size: true,}).exec((res) => nes_init(res).then(() => nes_boot(rom_data)));
-  fpsInterval = setInterval(() => {
-    console.debug(`FPS: ${nes?.getFPS()}`);
-  }, 1000);
+  return new Promise((resolve, reject) => {
+    Taro.createSelectorQuery()
+      .select('#' + canvas_id)
+      .fields({node: true, size: true,})
+      .exec((res) => nes_init(res).then(resolve).catch(reject));
+    fpsInterval = setInterval(() => {
+      console.debug(`FPS: ${nes?.getFPS()}`);
+    }, 1000);
+  });
 }
 
 export function loadUrl(_canvas_id, _scale, rom_data_url) {
   console.debug('从网络加载ROM - 开始');
-  Taro.request({
-    url: rom_data_url, method: 'GET', responseType: 'arrayBuffer',
-    header: {
-      'content-type': 'application/text'
-    }
-  }).then(({data}) => {
-    loadData(_canvas_id, _scale, Utils.ab2str(data));
-  }).catch(r => console.warn('下载rom错误', r));
+  loadData(_canvas_id, _scale).then(() => {
+    Taro.request({
+      url: rom_data_url, method: 'GET', responseType: 'arrayBuffer',
+      header: {
+        'content-type': 'application/text'
+      }
+    }).then(({data}) => nes_boot(Utils.ab2str(data))).catch(r => console.warn('下载rom错误', r));
+  });
 }
 
 export function buttonDown(player, buttonKey) {
