@@ -46,6 +46,7 @@
     "dva-immer": "^0.4.19",
     "dva-model-extend": "^0.1.2",
     "hash.js": "^1.1.7",
+    "js-md5": "^0.7.3",
     "jsnes": "^1.1.0",
     "lodash": "^4.17.20",
     "mockjs": "^1.1.0",

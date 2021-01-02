@@ -156,3 +156,7 @@ export function loadGameProgress(data) {
 export function saveGameProgress() {
   return nes.toJSON();
 }
+
+export function reloadROM() {
+  nes.reloadROM();
+}

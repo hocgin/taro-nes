@@ -38,11 +38,10 @@ class Index extends Component {
       gameUrl: gameUrl,
     });
 
+    // 自动加载 ROM
     Taro.eventCenter.once(Taro.getCurrentInstance().router.onReady, () => {
-      // loadUrl('gview', 'http://cdn.hocgin.top/InterglacticTransmissing.nes')
+      loadUrl('gview', scale, Config.getDownloadUrl(gameUrl, 'xx.nes'));
     });
-
-
   }
 
   componentWillUnmount() {
@@ -124,7 +123,6 @@ class Index extends Component {
       return;
     }
     this.setState({isLoading: true});
-    loadUrl('gview', scale, Config.getDownloadUrl(gameUrl, 'xx.nes'));
     this.setState({isLoading: false});
   };
 
