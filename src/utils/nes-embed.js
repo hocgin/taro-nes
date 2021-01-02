@@ -72,37 +72,68 @@ function audio_callback(event) {
   audio_read_cursor = (audio_read_cursor + len) & SAMPLE_MASK;
 }
 
-function nes_init(_callback, canvas_res) {
-  recycle();
-  console.debug('初始化屏幕 - 开始');
+/**
+ * 重置画布
+ * @param _canvas_id
+ * @param _scale
+ * @param _width
+ * @param _height
+ * @returns {Promise<unknown>}
+ */
+export function refreshCanvas(_canvas_id, _scale, _width, _height) {
+  canvas_id = _canvas_id;
+  return new Promise((resolve, reject) => {
+    Taro.createSelectorQuery()
+      .select('#' + canvas_id)
+      .fields({
+        node: true,
+        size: true,
+      }).exec((res) => {
+      let canvas_res = res[0];
 
+      let width = _width;
+      let height = _height;
+      scale = _scale;
+      canvas = canvas_res.node;
+
+      canvas_ctx = canvas.getContext('2d');
+      canvas.width = width * _scale;
+      canvas.height = height * _scale;
+
+      image = canvas_ctx.getImageData(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+      resolve();
+    });
+  });
+
+}
+
+// 初始化游戏机
+function nes_init(canvas_res) {
+  recycle();
   let width = canvas_res[0].width;
   let height = canvas_res[0].height;
 
-  canvas = canvas_res[0].node;
-  canvas_ctx = canvas.getContext('2d');
+  return new Promise((resolve, reject) => {
+    console.debug('初始化屏幕 - 开始');
+    refreshCanvas(canvas_id, scale, width, height).then(() => {
+      console.debug('初始化屏幕 - 完成');
+      canvas_ctx.fillStyle = "black";
+      canvas_ctx.fillRect(0, 0, width, height);
 
-  canvas.width = width * scale;
-  canvas.height = height * scale;
+      let buffer = new ArrayBuffer(image.data.length);
+      framebuffer_u8 = new Uint8ClampedArray(buffer);
+      framebuffer_u32 = new Uint32Array(buffer);
 
-  image = canvas_ctx.getImageData(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-
-  canvas_ctx.fillStyle = "black";
-  canvas_ctx.fillRect(0, 0, width, height);
-
-  let buffer = new ArrayBuffer(image.data.length);
-  framebuffer_u8 = new Uint8ClampedArray(buffer);
-  framebuffer_u32 = new Uint32Array(buffer);
-  console.debug('初始化屏幕 - 完成');
-
-  console.debug('初始化音频 - 开始');
-  // Setup audio.
-  // let audio_ctx = Taro.createInnerAudioContext();
-  // let script_processor = audio_ctx.createScriptProcessor(AUDIO_BUFFERING, 0, 2);
-  // script_processor.onaudioprocess = audio_callback;
-  // script_processor.connect(audio_ctx.destination);
-  console.debug('音频初始化 - 完成');
-  _callback();
+      console.debug('初始化音频 - 开始');
+      // Setup audio.
+      // let audio_ctx = Taro.createInnerAudioContext();
+      // let script_processor = audio_ctx.createScriptProcessor(AUDIO_BUFFERING, 0, 2);
+      // script_processor.onaudioprocess = audio_callback;
+      // script_processor.connect(audio_ctx.destination);
+      console.debug('音频初始化 - 完成');
+      resolve();
+    });
+  });
 }
 
 function nes_boot(rom_data) {
@@ -119,10 +150,7 @@ export function loadData(_canvas_id, _scale, rom_data) {
   clearInterval(fpsInterval);
   Taro.createSelectorQuery()
     .select('#' + canvas_id)
-    .fields({
-      node: true,
-      size: true,
-    }).exec(nes_init.bind(this, () => nes_boot(rom_data)));
+    .fields({node: true, size: true,}).exec((res) => nes_init(res).then(() => nes_boot(rom_data)));
   fpsInterval = setInterval(() => {
     console.debug(`FPS: ${nes?.getFPS()}`);
   }, 1000);

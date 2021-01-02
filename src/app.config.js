@@ -1,5 +1,6 @@
 export default {
   pages: [
+    'pages/game/index',
     'pages/index/index',
     'pages/nes/index',
     'pages/common/apply/index',
