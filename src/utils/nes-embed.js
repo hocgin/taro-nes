@@ -31,12 +31,15 @@ let nes = new jsnes.NES({
   },
 });
 
-function recycle() {
+export function recycle() {
   // 资源回收
   if (rafId !== null && canvas !== null) {
     console.debug('回收上次资源 - 开始');
     canvas.cancelAnimationFrame(rafId);
     console.debug('回收上次资源 - 结束');
+  }
+  if (fpsInterval) {
+    clearInterval(fpsInterval);
   }
 
   // 创建资源

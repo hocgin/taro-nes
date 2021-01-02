@@ -4,7 +4,7 @@ import Screen from '@/components/Emulator/Screen';
 import Controller from '@/components/Emulator/Controller';
 import {
   saveGameProgress, loadGameProgress, loadUrl,
-  buttonUp, buttonDown, refreshCanvas
+  buttonUp, buttonDown, refreshCanvas, recycle
 } from '@/utils/nes-embed'
 import PropTypes from "prop-types";
 import Taro from "@tarojs/taro";
@@ -19,6 +19,9 @@ const canvasId = 'gview';
 class Index extends React.PureComponent {
   state = {};
 
+  componentWillUnmount() {
+    recycle();
+  }
 
   render() {
     let {width, height} = this.props;

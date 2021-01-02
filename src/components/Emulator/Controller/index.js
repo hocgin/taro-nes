@@ -4,9 +4,9 @@ import classnames from "classnames";
 import {Controller} from "jsnes";
 import PropTypes from "prop-types";
 import Taro from "@tarojs/taro";
+import Config from "@/config";
 
 import styles from './index.less';
-import Config from "@/config";
 
 let innerAudioContext;
 
@@ -26,8 +26,10 @@ class Index extends React.PureComponent {
     let {isLoading, onClickLoadProgress, onClickSaveProgress} = this.props;
     return (<View className={styles.component}>
       <View className={styles.toolbar}>
-        <View className={classnames(styles.nesBtn)} onClick={onClickSaveProgress.bind(this)}>存档</View>
-        <View className={classnames(styles.nesBtn)} onClick={onClickLoadProgress.bind(this)}>加载存档</View>
+        <View className={classnames(styles.nesBtn, styles.saveProgress)}
+              onClick={onClickSaveProgress.bind(this)}>存档</View>
+        <View className={classnames(styles.nesBtn, styles.loadProgress)}
+              onClick={onClickLoadProgress.bind(this)}>读档</View>
       </View>
       <View className={styles.ctls}>
         <View className={styles.row1}>

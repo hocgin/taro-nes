@@ -19,8 +19,7 @@ import styles from './index.less';
   // listCoupon: (args = {}) => dispatch({type: 'apps/listCoupon', ...args})
 }))
 class Index extends Component {
-  state = {
-  };
+  state = {};
 
   componentDidMount() {
   }
@@ -35,7 +34,7 @@ class Index extends Component {
 
     // - 放大
     // - 声音 25.6
-    return (<PageLayout containerClassName={styles.page}>
+    return (<PageLayout title={Taro.getCurrentInstance().router.params?.gameName} containerClassName={styles.page}>
       <View style='width: 100%'>
         <Emulator player={1} width={WIN_WIDTH} />
       </View>
