@@ -35,38 +35,51 @@ class Index extends React.PureComponent {
         <View className={styles.row1}>
           <View className={styles.rl}>
             <View className={classnames(styles.nesBtn, styles.t)}
+                  onClick={this.onKeyButtonClick.bind(this, Controller.BUTTON_UP)}
                   onTouchStart={this.onKeyButtonDown.bind(this, Controller.BUTTON_UP)}
                   onTouchEnd={this.onKeyButtonUp.bind(this, Controller.BUTTON_UP)}>上</View>
             <View className={classnames(styles.nesBtn, styles.d)}
+                  onClick={this.onKeyButtonClick.bind(this, Controller.BUTTON_DOWN)}
                   onTouchStart={this.onKeyButtonDown.bind(this, Controller.BUTTON_DOWN)}
                   onTouchEnd={this.onKeyButtonUp.bind(this, Controller.BUTTON_DOWN)}>下</View>
             <View className={classnames(styles.nesBtn, styles.l)}
+                  onClick={this.onKeyButtonClick.bind(this, Controller.BUTTON_LEFT)}
                   onTouchStart={this.onKeyButtonDown.bind(this, Controller.BUTTON_LEFT)}
                   onTouchEnd={this.onKeyButtonUp.bind(this, Controller.BUTTON_LEFT)}>左</View>
             <View className={classnames(styles.nesBtn, styles.r)}
+                  onClick={this.onKeyButtonClick.bind(this, Controller.BUTTON_RIGHT)}
                   onTouchStart={this.onKeyButtonDown.bind(this, Controller.BUTTON_RIGHT)}
                   onTouchEnd={this.onKeyButtonUp.bind(this, Controller.BUTTON_RIGHT)}>右</View>
           </View>
           <View className={styles.rr}>
             <View className={classnames(styles.nesBtn, styles.isSuccess, styles.b)}
+                  onClick={this.onKeyButtonClick.bind(this, Controller.BUTTON_B)}
                   onTouchStart={this.onKeyButtonDown.bind(this, Controller.BUTTON_B)}
                   onTouchEnd={this.onKeyButtonUp.bind(this, Controller.BUTTON_B)}>B</View>
             <View className={classnames(styles.nesBtn, styles.isPrimary, styles.a)}
+                  onClick={this.onKeyButtonClick.bind(this, Controller.BUTTON_A)}
                   onTouchStart={this.onKeyButtonDown.bind(this, Controller.BUTTON_A)}
                   onTouchEnd={this.onKeyButtonUp.bind(this, Controller.BUTTON_A)}>A</View>
           </View>
         </View>
         <View className={styles.row2}>
           <View className={classnames(styles.nesBtn, styles.isWarning, styles.select)}
+                onClick={this.onKeyButtonClick.bind(this, Controller.BUTTON_SELECT)}
                 onTouchStart={this.onKeyButtonDown.bind(this, Controller.BUTTON_SELECT)}
                 onTouchEnd={this.onKeyButtonUp.bind(this, Controller.BUTTON_SELECT)}>选择</View>
           <View className={classnames(styles.nesBtn, styles.isError, styles.start)}
+                onClick={this.onKeyButtonClick.bind(this, Controller.BUTTON_START)}
                 onTouchStart={this.onKeyButtonDown.bind(this, Controller.BUTTON_START)}
                 onTouchEnd={this.onKeyButtonUp.bind(this, Controller.BUTTON_START)}>开始</View>
         </View>
       </View>
     </View>);
   }
+
+  onKeyButtonClick = (key) => {
+    this.onKeyButtonDown(key);
+    this.onKeyButtonUp(key);
+  };
 
   onKeyButtonDown = (key) => {
     let {onKeyButtonDown} = this.props;

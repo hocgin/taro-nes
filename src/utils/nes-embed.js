@@ -181,7 +181,7 @@ export function loadUrl(_canvas_id, _scale, rom_data_url) {
         'content-type': 'application/text'
       }
     }).then(({data}) => {
-      // nes_boot(Utils.ab2str(data))
+      nes_boot(Utils.ab2str(data))
     }).catch(r => console.warn('下载rom错误', r));
   });
 }
