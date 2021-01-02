@@ -2,10 +2,11 @@ import jsnes from "jsnes";
 import Taro from "@tarojs/taro";
 import ab2str from "arraybuffer-to-string";
 
-let scale = 1,
-  rafId = null;
+let scale = 1;
+let rafId = null;
+let fpsInterval = null;
 
-let canvas_ctx, canvas, canvas_id, image;
+let canvas_ctx, canvas = null, canvas_id, image;
 let SCREEN_WIDTH = 256;
 let SCREEN_HEIGHT = 240;
 let FRAMEBUFFER_SIZE = SCREEN_WIDTH * SCREEN_HEIGHT;
@@ -115,12 +116,16 @@ function nes_boot(rom_data) {
 export function loadData(_canvas_id, _scale, rom_data) {
   scale = _scale;
   canvas_id = _canvas_id;
+  clearInterval(fpsInterval);
   Taro.createSelectorQuery()
     .select('#' + canvas_id)
     .fields({
       node: true,
       size: true,
     }).exec(nes_init.bind(this, () => nes_boot(rom_data)));
+  fpsInterval = setInterval(() => {
+    console.debug(`FPS: ${nes?.getFPS()}`);
+  }, 1000);
 }
 
 export function loadUrl(_canvas_id, _scale, rom_data_url) {
@@ -142,4 +147,12 @@ export function buttonDown(player, buttonKey) {
 
 export function buttonUp(player, buttonKey) {
   nes.buttonUp(player, buttonKey);
+}
+
+export function loadGameProgress(data) {
+  nes.fromJSON(data);
+}
+
+export function saveGameProgress() {
+  return nes.toJSON();
 }

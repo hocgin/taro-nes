@@ -1,7 +1,8 @@
 import Taro from '@tarojs/taro';
 
 export const Keys = {
-  USER_INFO: 'userInfo'
+  USER_INFO: 'userInfo',
+  GAME_SAVE: 'gameSave'
 };
 
 export function setStorage(key, val) {

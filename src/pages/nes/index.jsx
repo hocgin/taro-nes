@@ -1,15 +1,16 @@
 import React, {Component} from 'react'
 import {connect} from "react-redux";
-import {loadData, loadUrl, buttonUp, buttonDown, screenHeight, screenWidth} from '@/utils/nes-embed'
+import {saveGameProgress, loadUrl, buttonUp, buttonDown, loadGameProgress} from '@/utils/nes-embed'
 import PageLayout from '@/layouts/common/PageLayout';
 import Taro from "@tarojs/taro";
 import {Controller} from "jsnes";
 import {Button, Canvas, Image, Text, View} from "@tarojs/components";
 import Utils from "@/utils/utils";
 import classnames from "classnames";
+import Config from "@/config";
+import {setStorageSync, getStorageSync, Keys} from "@/utils/storage";
 
 import styles from './index.less';
-import Config from "@/config";
 
 @connect(({apps}) => ({
   // apps
@@ -65,6 +66,8 @@ class Index extends Component {
               className={classnames(styles.nesBtn, styles.loadBtn, {
                 [styles.isDisabled]: isLoading
               })}>{isLoading ? '加载中..' : '加载'}</View>
+        <View className={classnames(styles.nesBtn)} onClick={this.onClickSave.bind(this)}>存档</View>
+        <View className={classnames(styles.nesBtn)} onClick={this.onClickLoadSave.bind(this)}>加载存档</View>
       </View>
 
       {/*控制面板*/}
@@ -124,6 +127,20 @@ class Index extends Component {
     loadUrl('gview', scale, Config.getDownloadUrl(gameUrl, 'xx.nes'));
     this.setState({isLoading: false});
   };
+
+  onClickSave() {
+    let data = saveGameProgress();
+    if (data !== null) {
+      setStorageSync(Keys.GAME_SAVE, data);
+    }
+  }
+
+  onClickLoadSave() {
+    let data = getStorageSync(Keys.GAME_SAVE);
+    if (data !== null) {
+      loadGameProgress(data);
+    }
+  }
 
 
 }
