@@ -16,9 +16,7 @@
 
   .row1 {
     width: 100%;
-    height: @sw * 4;
-    margin: 0 20px;
-    margin-top: @sw * 2;
+    margin: 10px 20px 35rpx;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -28,7 +26,7 @@
       flex: 1;
 
       .t, .d, .r, .l {
-        position: absolute;
+        //position: absolute;
         height: @sw;
         width: @sw;
         display: flex;
@@ -38,19 +36,22 @@
 
       .t {
         left: @sw*2;
-        top: -@sw*1.5;
-      }
-
-      .l {
-        left: @sw*0.5;
-      }
-
-      .r {
-        left: @sw*3.5;
+        //top: -@sw*1.5;
       }
 
       .d {
         left: @sw*2;
+        top: @sw*1.5;
+      }
+
+      .l {
+        left: @sw*0.5;
+        top: -@sw*4/3;
+      }
+
+      .r {
+        position: absolute;
+        left: @sw*3.5;
         top: @sw*1.5;
       }
     }
@@ -60,6 +61,7 @@
     .rr {
       position: relative;
       flex: 1;
+      margin-top: @sr * 1.2;
 
       .a, .b {
         position: absolute;
