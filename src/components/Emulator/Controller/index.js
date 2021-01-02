@@ -88,11 +88,11 @@ class Index extends React.PureComponent {
   };
 
   playAudio = (src) => {
-    // return new Promise((resolve, reject) => {
-    //   innerAudioContext.src = src;
-    //   innerAudioContext.play();
-    //   resolve();
-    // });
+    return new Promise((resolve, reject) => {
+      innerAudioContext.src = src;
+      innerAudioContext.play();
+      resolve();
+    });
   };
 
 }
