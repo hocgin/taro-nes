@@ -19,9 +19,6 @@ const canvasId = 'gview';
 class Index extends React.PureComponent {
   state = {};
 
-  componentDidMount() {
-  }
-
 
   render() {
     let {width, height} = this.props;
@@ -36,15 +33,21 @@ class Index extends React.PureComponent {
   }
 
   onClickSaveProgress = () => {
+    let {gameUrl} = Taro.getCurrentInstance().router.params;
+    console.debug('游戏保存 开始');
     let data = saveGameProgress();
-    setStorageSync(Keys.GAME_SAVE, data);
+    setStorageSync(Keys.getGameSaveRom(gameUrl, 1), data);
+    console.debug('游戏保存 结束');
   }
 
   onClickLoadProgress = () => {
-    let data = getStorageSync(Keys.GAME_SAVE);
+    let {gameUrl} = Taro.getCurrentInstance().router.params;
+    console.debug('游戏读取 开始');
+    let data = getStorageSync(Keys.getGameSaveRom(gameUrl, 1));
     if (data !== null) {
       loadGameProgress(data);
     }
+    console.debug('游戏读取 结束');
   }
 
   onKeyButtonUp = (key) => {
@@ -59,11 +62,13 @@ class Index extends React.PureComponent {
 
   onChangeScreen = (scale, width, height) => {
     let {gameUrl} = Taro.getCurrentInstance().router.params;
+    console.debug('加载游戏', gameUrl);
 
     // 刷新屏幕并加载游戏
     refreshCanvas(canvasId, scale, width, height)
-      .then(_ => loadUrl('gview', scale, Config.getDownloadUrl(gameUrl, 'xx.nes')));
+      .then(_ => loadUrl(canvasId, scale, Config.getDownloadUrl(gameUrl, 'game.nes')));
   };
+
 }
 
 

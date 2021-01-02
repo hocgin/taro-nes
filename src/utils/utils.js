@@ -1,4 +1,6 @@
 import Taro from "@tarojs/taro";
+import md5 from 'js-md5';
+import ab2str from "arraybuffer-to-string";
 
 export default class Utils {
   static mockSuccess(data) {
@@ -46,5 +48,22 @@ export default class Utils {
       sysInfo.showModal(options);
     };
     return sysInfo;
+  }
+
+  static md5(str) {
+    let hash = md5.create();
+    hash.update('Message to hash');
+    return hash.hex();
+  }
+
+  static ab2str(arr) {
+    let str = '';
+    let chunk = 8 * 1024; // 8k
+    let i;
+    for (i = 0; i < arr.byteLength / chunk; i++) {
+      str += ab2str(arr.slice(i * chunk, (i + 1) * chunk), 'binary');
+    }
+    str += ab2str(arr.slice(i * chunk), 'binary');
+    return str;
   }
 }

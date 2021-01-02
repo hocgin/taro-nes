@@ -53,4 +53,20 @@ export default class Config {
   static getDefaultUserUrl() {
     return 'http://cdn.hocgin.top/anonymous2.png';
   }
+
+  static getMusicA() {
+    return 'http://cdn.hocgin.top/a.mp3';
+  }
+
+  static getMusicB() {
+    return 'http://cdn.hocgin.top/b.mp3';
+  }
+
+  static getMusicStart() {
+    return 'http://cdn.hocgin.top/start.mp3';
+  }
+
+  static getMusicSelect() {
+    return 'http://cdn.hocgin.top/select.mp3';
+  }
 }

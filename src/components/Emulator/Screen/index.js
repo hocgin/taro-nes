@@ -10,10 +10,6 @@ class Index extends React.PureComponent {
     height: 240
   }
 
-  componentWillMount() {
-
-  }
-
   componentDidMount() {
     // 自动适配宽/高
     Taro.eventCenter.once(Taro.getCurrentInstance().router.onReady, this.resetScreen);

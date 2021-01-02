@@ -60,7 +60,7 @@ class Index extends Component {
         <View className={styles.container}>
           {(index?.recommend || []).map(({remark, title, logoUrl, tags, viewUrls, gameUrl}) =>
             <RowCard className={styles.rowCard} logoUrl={logoUrl} viewUrls={viewUrls} remark={remark} title={title}
-                     tags={tags} href={{mini: {path: `${PageKey.NES_PAGE}?gameUrl=${gameUrl}`}}} />)}
+                     tags={tags} href={{mini: {path: `${PageKey.GAME_PAGE}?gameUrl=${gameUrl}`}}} />)}
         </View>
       </View>
 

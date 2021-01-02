@@ -20,29 +20,9 @@ import styles from './index.less';
 }))
 class Index extends Component {
   state = {
-    width: null,
-    height: null,
-    scale: null,
-    gameUrl: null,
-    isLoading: false
   };
 
   componentDidMount() {
-    let {gameUrl} = Taro.getCurrentInstance().router.params;
-    let {WIN_WIDTH, WIN_HEIGHT} = Utils.getSystemInfo();
-    let scale = 256 / WIN_WIDTH;
-    // 256/WIN_WIDTH = 240 / x
-    this.setState({
-      scale: scale,
-      width: WIN_WIDTH,
-      height: 240 / scale,
-      gameUrl: gameUrl,
-    });
-
-    // 自动加载 ROM
-    // Taro.eventCenter.once(Taro.getCurrentInstance().router.onReady, () => {
-    //   loadUrl('gview', scale, Config.getDownloadUrl(gameUrl, 'xx.nes'));
-    // });
   }
 
   componentWillUnmount() {
@@ -51,8 +31,6 @@ class Index extends Component {
 
   render() {
     let {apps} = this.props;
-    let {width, height, isLoading} = this.state;
-    console.log('state', this.state);
     let {WIN_WIDTH, WIN_HEIGHT} = Utils.getSystemInfo();
 
     // - 放大

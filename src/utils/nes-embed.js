@@ -1,6 +1,7 @@
 import jsnes from "jsnes";
 import Taro from "@tarojs/taro";
 import ab2str from "arraybuffer-to-string";
+import Utils from "@/utils/utils";
 
 let scale = 1;
 let rafId = null;
@@ -164,8 +165,7 @@ export function loadUrl(_canvas_id, _scale, rom_data_url) {
       'content-type': 'application/text'
     }
   }).then(({data}) => {
-    let newData = ab2str(data, 'binary');
-    loadData(_canvas_id, _scale, newData);
+    loadData(_canvas_id, _scale, Utils.ab2str(data));
   }).catch(r => console.warn('下载rom错误', r));
 }
 

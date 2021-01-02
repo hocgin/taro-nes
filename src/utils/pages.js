@@ -2,6 +2,7 @@ import Taro from "@tarojs/taro";
 
 export const PageKey = {
   INDEX_PAGE: '/pages/index/index',
+  GAME_PAGE: '/pages/game/index',
   NES_PAGE: '/pages/nes/index',
   APPLY_PAGE: '/pages/common/apply/index',
   USER_PAGE: '/pages/common/user/index',
