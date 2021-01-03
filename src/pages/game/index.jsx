@@ -57,10 +57,11 @@ class Index extends Component {
   }
 
   onShareTimeline() {
+    let {gameName, gameUrl} = Taro.getCurrentInstance().router;
     return {
-      title: '',
-      query: '',
-      imageUrl: '',
+      title: `邀请你玩[${gameName}]`,
+      query: {gameName, gameUrl},
+      // imageUrl: '',
     };
   }
 
