@@ -1,6 +1,5 @@
 import jsnes from "jsnes";
 import Taro from "@tarojs/taro";
-import ab2str from "arraybuffer-to-string";
 import Utils from "@/utils/utils";
 
 let scale = 1;

@@ -10,6 +10,8 @@ import Utils from "@/utils/utils";
 import classnames from "classnames";
 import Config from "@/config";
 import {setStorageSync, getStorageSync, Keys} from "@/utils/storage";
+import {PageKey} from "@/utils/pages";
+import qs from "querystring";
 
 import styles from './index.less';
 
@@ -39,6 +41,27 @@ class Index extends Component {
         <Emulator player={1} width={WIN_WIDTH} />
       </View>
     </PageLayout>);
+  }
+
+  onShareAppMessage(res) {
+    if (res.from === 'button') {
+      // 来自页面内转发按钮
+      console.log(res.target)
+    }
+    let {gameName, gameUrl} = Taro.getCurrentInstance().router;
+
+    return {
+      title: '游戏邀请',
+      path: `${PageKey.GAME_PAGE}?${qs.stringify({gameName, gameUrl})}`
+    }
+  }
+
+  onShareTimeline() {
+    return {
+      title: '',
+      query: '',
+      imageUrl: '',
+    };
   }
 
 }
