@@ -51,7 +51,7 @@ class Index extends Component {
     let {gameName, gameUrl} = Taro.getCurrentInstance().router;
 
     return {
-      title: '游戏邀请',
+      title: `邀请你玩[${gameName}]`,
       path: `${PageKey.GAME_PAGE}?${qs.stringify({gameName, gameUrl})}`
     }
   }
