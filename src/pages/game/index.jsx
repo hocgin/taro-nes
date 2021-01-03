@@ -48,18 +48,18 @@ class Index extends Component {
       // 来自页面内转发按钮
       console.log(res.target)
     }
-    let {gameName, gameUrl} = Taro.getCurrentInstance().router;
+    let {gameName, gameUrl} = Taro.getCurrentInstance().router.params;
 
     return {
-      title: `邀请你玩[${gameName}]`,
+      title: `邀请你玩 - ${gameName}`,
       path: `${PageKey.GAME_PAGE}?${qs.stringify({gameName, gameUrl})}`
     }
   }
 
   onShareTimeline() {
-    let {gameName, gameUrl} = Taro.getCurrentInstance().router;
+    let {gameName, gameUrl} = Taro.getCurrentInstance().router.params;
     return {
-      title: `邀请你玩[${gameName}]`,
+      title: `邀请你玩 - ${gameName}`,
       query: {gameName, gameUrl},
       // imageUrl: '',
     };
