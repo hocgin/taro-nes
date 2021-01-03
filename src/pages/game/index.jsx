@@ -33,9 +33,8 @@ class Index extends Component {
   render() {
     let {apps} = this.props;
     let {WIN_WIDTH, WIN_HEIGHT} = Utils.getSystemInfo();
-
-    // - 放大
     // - 声音 25.6
+    // - 多人联机
     return (<PageLayout title={Taro.getCurrentInstance().router.params?.gameName} containerClassName={styles.page}>
       <View style='width: 100%'>
         <Emulator player={1} width={WIN_WIDTH} />
