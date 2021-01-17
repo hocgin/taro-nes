@@ -109,8 +109,7 @@ class Index extends React.Component {
   }
 
   onClickAvatarton = () => {
-    Pages
-      .gotoUser();
+    Pages.gotoUser();
   }
 
   onClickTab = (index) => {
