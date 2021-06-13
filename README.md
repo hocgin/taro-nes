@@ -1,3 +1,6 @@
+# 截图
+![image](https://user-images.githubusercontent.com/16535610/121804043-fabf9980-cc76-11eb-92f3-0257d7062899.png)
+
 # taro-starter
 
 > - 这是一份基于 3.x 的 Taro 模版, 如果有需要可以点击`Use this Template`进行使用。
